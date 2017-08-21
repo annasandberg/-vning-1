@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Övning1.Models.Dish>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Dishes</h2>
+
+<table>
+
+@foreach (var dish in Model)
+{
+    <tr>
+        <td>@dish.Name</td>
+        <td>@dish.Price</td>
+    </tr>
+}
+</table>
+
+
