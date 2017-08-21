@@ -11,7 +11,7 @@ namespace Övning1.Data
 {
     public class DBInitializer
     {
-        public static void Initialize(ApplicationDbContext context, UserManager<ApplicationUser> usermanager)
+        public static void Initialize(ApplicationDbContext context, UserManager<ApplicationUser> usermanager, RoleManager<IdentityRole> roleManager)
         {
 
             var aUser = new ApplicationUser();
@@ -19,6 +19,19 @@ namespace Övning1.Data
             aUser.Email = "student@tset.com";
             var r = usermanager.CreateAsync(aUser, "Pa$$w0rd").Result;
 
+            var adminRole = new IdentityRole { Name = "Admin" };
+            var roleresult = roleManager.CreateAsync(adminRole).Result;
+
+            var adminUser = new ApplicationUser();
+            adminUser.UserName = "admin@tset.com";
+            adminUser.Email = "admin@tset.com";
+            var adminUserResult= usermanager.CreateAsync(adminUser, "Pa$$w0rd").Result;
+            if (adminUserResult.Succeeded)
+            {
+                usermanager.AddToRoleAsync(adminUser, adminRole.Name);
+            }
+
+   
             if (context.Dishes.ToList().Count == 0)
             {
                 var cappricciosa = new Dish { Name = "Cappricciosa" , Price = 79};

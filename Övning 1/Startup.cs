@@ -40,12 +40,13 @@ namespace Övning_1
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<UserManager<ApplicationUser>>();
             services.AddTransient<DBInitializer>();
+            services.AddTransient<RoleManager<IdentityRole>>();
 
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, UserManager<ApplicationUser> userManager, ApplicationDbContext context, RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -69,7 +70,7 @@ namespace Övning_1
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            DBInitializer.Initialize(context, userManager);
+            DBInitializer.Initialize(context, userManager, roleManager);
         }
     }
 }
