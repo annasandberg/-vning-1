@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Övning_1.Data;
 using Övning_1.Models;
 using Övning_1.Services;
+using Övning1.Data;
 
 namespace Övning_1
 {
@@ -38,6 +39,7 @@ namespace Övning_1
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<UserManager<ApplicationUser>>();
+            services.AddTransient<DBInitializer>();
 
             services.AddMvc();
         }
@@ -66,6 +68,8 @@ namespace Övning_1
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            DBInitializer.Initialize(userManager);
         }
     }
 }
